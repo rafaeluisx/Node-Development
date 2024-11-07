@@ -1,20 +1,27 @@
-import http from 'node:http';
+import http from "node:http";
 
- const server = http.createServer((request, response)=> {
-   const method = request.method;
-   const url = request.url;
+const users = [];
 
-   if (method == 'GET' && url == '/users')
-   {
-      return response.end('Listagem de usuário');
-   }
+const server = http.createServer((request, response) => {
+  const method = request.method;
+  const url = request.url;
 
-   if (method == 'POST' && url == '/users')
-   {
-      return response.end('Criação de usuário');
-   }
-   
-   return response.end("Hello World");
- });
+  if (method == "GET" && url == "/users") {
+    return response
+      .setHeader("Content-type", "application/json")
+      .end(JSON.stringify(users));
+  }
 
- server.listen(3333);
+  if (method == "POST" && url == "/users") {
+    users.push({
+      id: 1,
+      name: "John Doe",
+      email: "johndoe@example.com",
+    });
+    return response.end("Criação de usuário");
+  }
+
+  return response.end("Hello World");
+});
+
+server.listen(3333);
