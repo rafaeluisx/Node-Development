@@ -10,13 +10,24 @@ class NegateNumber extends Transform{
 
 }
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
 
-    const teste = new NegateNumber();
+    const buffers = [];
 
-    return request
-    .pipe(new NegateNumber())
-    .pipe(response);
+    for await(const chunk of request){
+        buffers.push(chunk);
+    }
+
+    const fullStreamContent = Buffer.concat(buffers).toString();
+
+    console.log(fullStreamContent);
+
+    return response.end(fullStreamContent);
+
+    //const teste = new NegateNumber();
+    // return request
+    // .pipe(new NegateNumber())
+    // .pipe(response);
 });
 
 server.listen(3334);
