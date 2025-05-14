@@ -5,7 +5,6 @@ class SayMyName extends Transform{
 
     _transform(chunk, encoding, callback){
         const firstName = chunk.toString();
-        console.log(`My first name is: ${firstName}`);
 
         const fullName = firstName + ' Luis';
         console.log(fullName);
